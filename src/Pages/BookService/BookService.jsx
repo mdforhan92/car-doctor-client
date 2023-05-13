@@ -27,7 +27,7 @@ const BookService = () => {
         }
         console.log(booking);
 
-        //!send data
+        //!send data( data collect kore booking server e patabo)
         
         fetch('http://localhost:3000/bookings', {
             method: 'POST',
@@ -52,7 +52,7 @@ const BookService = () => {
     }
     return (
         <div>
-            <h2 className="text-3xl font-semibold text-center">Book Service : {title}</h2>
+            <h2 className="text-3xl font-semibold text-center">Book Service : <span className="text-orange-600 font-bold">{title}</span></h2>
             
             <div className="card-body">
 
@@ -62,13 +62,13 @@ const BookService = () => {
                     <label className="label">
                         <span className="label-text">Name</span>
                     </label>
-                    <input type="text" name="name" defaultValue={user?.displayName} placeholder="email" className="input input-bordered" />
+                    <input type="text" name="name" defaultValue={user?.displayName} placeholder="Name" className="input input-bordered" />
                 </div>
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Date</span>
                     </label>
-                    <input type="date" placeholder="password" name="date" className="input input-bordered" />
+                    <input type="date" placeholder="Date" name="date" className="input input-bordered" />
                 </div>
                 <div className="form-control">
                     <label className="label">

@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
 import logo from '../../../assets/logo.svg'
 const Footer = () => {
     return (
         <footer className="footer p-10 bg-base-200 text-base-content grid lg:grid-cols-3 grid-cols-2 ">
             <div>
+            <Link to='/'>
                 <img src={logo} alt="" />
+                </Link>
                 
                 <p>ACME Industries Ltd.<br />Providing reliable tech since 1992</p>
             </div>

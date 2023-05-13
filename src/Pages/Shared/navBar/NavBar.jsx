@@ -18,7 +18,11 @@ const NavBar = () => {
     const navItems = <>
         <li><Link className="font-semibold text-orange-600" to="/">Home</Link></li>
         <li><Link className="font-semibold text-orange-600" to="/">About</Link></li>
-        {user?.email ? <li><button onClick={handleLogout} className="font-semibold text-orange-600">Logout</button></li> : <li><Link className="font-semibold text-orange-600" to="/login">Login</Link></li>
+        {user?.email ? <>
+            <li><Link className="font-semibold text-orange-600" to="/bookings">My Bookings</Link></li> 
+            <li><button onClick={handleLogout} className="font-semibold text-orange-600">Logout</button></li> 
+        </>
+        : <li><Link className="font-semibold text-orange-600" to="/login">Login</Link></li>
         }
     </>
     return (
