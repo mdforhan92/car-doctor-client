@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"
   ],
   theme: {
     extend: {},
@@ -10,6 +11,6 @@ export default {
       center: true,
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui", "flowbite/plugin")],
 }
 
