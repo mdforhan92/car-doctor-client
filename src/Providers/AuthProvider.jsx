@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from './../firebase.config';
 
 export const AuthContext = createContext();
@@ -9,6 +9,7 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const googleProvide = new GoogleAuthProvider();
 
     //! create user by emil
     const createUser = (email, password) => {
@@ -20,6 +21,13 @@ const AuthProvider = ({ children }) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password)
     }
+
+    //! Google Login 
+    const googleSignIn = () => {
+        setLoading(true);
+        return signInWithPopup(auth, googleProvide);
+    }
+
     //! Logout
     const logOut = () => {
         setLoading(true);
@@ -31,8 +39,31 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            console.log('current user', currentUser);
+            console.log('current user in auth Provider', currentUser);
             setLoading(false);
+            if(currentUser && currentUser.email){
+                const loggedUser = {
+                    email: currentUser.email
+                }
+                 //!jwt
+                 fetch('http://localhost:3000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type' : 'application/json'
+                    },
+                    body: JSON.stringify(loggedUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('jwt response', data);
+                    //waring: localStorage is not the best place
+                    localStorage.setItem('car-access-token', data.token); 
+                })
+            }
+            else{
+                //jwt remove token after logout from localStorage
+                localStorage.removeItem('car-access-token');
+            }
         });
         return () => {
             return unsubscribe();
@@ -45,7 +76,8 @@ const AuthProvider = ({ children }) => {
         loading,
         createUser,
         signIn,
-        logOut
+        logOut,
+        googleSignIn
     }
 
     return (
